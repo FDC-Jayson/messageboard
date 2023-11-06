@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 06, 2023 at 10:45 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1:3306
+-- Generation Time: Nov 06, 2023 at 11:36 PM
+-- Server version: 8.0.32
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,15 +27,17 @@ SET time_zone = "+00:00";
 -- Table structure for table `deleted_messages`
 --
 
-CREATE TABLE `deleted_messages` (
-  `id` int(11) NOT NULL,
-  `message_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `deleted_messages`;
+CREATE TABLE IF NOT EXISTS `deleted_messages` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `message_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `created_ip` text NOT NULL,
-  `modified_ip` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_ip` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `modified_ip` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `deleted_messages`
@@ -120,17 +122,19 @@ INSERT INTO `deleted_messages` (`id`, `message_id`, `user_id`, `created`, `modif
 -- Table structure for table `messages`
 --
 
-CREATE TABLE `messages` (
-  `id` int(11) NOT NULL,
-  `from_user_id` int(11) NOT NULL,
-  `to_user_id` int(11) NOT NULL,
-  `message` text NOT NULL,
-  `is_read` int(11) NOT NULL,
+DROP TABLE IF EXISTS `messages`;
+CREATE TABLE IF NOT EXISTS `messages` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `from_user_id` int NOT NULL,
+  `to_user_id` int NOT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `is_read` int NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `created_ip` varchar(200) NOT NULL,
-  `modified_ip` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_ip` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `modified_ip` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `messages`
@@ -357,16 +361,18 @@ INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `message`, `is_read`
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `email` varchar(200) NOT NULL,
-  `password` text NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` text COLLATE utf8mb4_general_ci NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `last_login_at` datetime NOT NULL,
-  `created_ip` text NOT NULL,
-  `modified_ip` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `last_login_at` datetime DEFAULT NULL,
+  `created_ip` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `modified_ip` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -406,7 +412,8 @@ INSERT INTO `users` (`id`, `email`, `password`, `created`, `modified`, `last_log
 (42, 'testest@gmail.com', '773bef96adefec5d44b0377fa9bc1e8aa8065572', '2023-10-27 07:44:06', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0'),
 (43, 'sdssfdf@gmail.com', 'df300fbfe0f892a2ba714186b200bf3f9023f3a0', '2023-10-27 07:44:56', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0'),
 (44, 'christian@gmail.com', '33d744dd35daa7dfdc9bf1294d7d42cec43b752f', '2023-10-31 09:15:37', '0000-00-00 00:00:00', '2023-11-02 09:47:02', '0', '0'),
-(45, 'test123@gmail.com', '33d744dd35daa7dfdc9bf1294d7d42cec43b752f', '2023-11-02 09:51:38', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0');
+(45, 'test123@gmail.com', '33d744dd35daa7dfdc9bf1294d7d42cec43b752f', '2023-11-02 09:51:38', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0'),
+(46, 'hotdog@gmail.com', 'c520447a49773ef52ece474d2abd9a31c0c9c756', '2023-11-06 23:13:55', '2023-11-06 23:13:55', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -414,20 +421,22 @@ INSERT INTO `users` (`id`, `email`, `password`, `created`, `modified`, `last_log
 -- Table structure for table `user_profiles`
 --
 
-CREATE TABLE `user_profiles` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `image` text NOT NULL,
-  `gender` varchar(200) NOT NULL,
-  `hubby` text NOT NULL,
-  `age` int(11) NOT NULL,
-  `birthdate` datetime NOT NULL,
+DROP TABLE IF EXISTS `user_profiles`;
+CREATE TABLE IF NOT EXISTS `user_profiles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `gender` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `hubby` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `age` int DEFAULT NULL,
+  `birthdate` datetime DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `created_ip` text NOT NULL,
-  `modified_ip` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_ip` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `modified_ip` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_profiles`
@@ -454,63 +463,8 @@ INSERT INTO `user_profiles` (`id`, `user_id`, `name`, `image`, `gender`, `hubby`
 (25, 42, 'testest', '', '', '', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', ''),
 (26, 43, 'sdxvcxvcx', 'sdssfdf.png', 'Male', 'Test', 0, '2023-10-09 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', ''),
 (27, 44, 'Dan Christian Lim', 'christian.jpg', 'Male', 'Nothing', 0, '2022-01-25 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', ''),
-(28, 45, 'test test', '', '', '', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `deleted_messages`
---
-ALTER TABLE `deleted_messages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `messages`
---
-ALTER TABLE `messages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `user_profiles`
---
-ALTER TABLE `user_profiles`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `deleted_messages`
---
-ALTER TABLE `deleted_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
-
---
--- AUTO_INCREMENT for table `messages`
---
-ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
-
---
--- AUTO_INCREMENT for table `user_profiles`
---
-ALTER TABLE `user_profiles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+(28, 45, 'test test', '', '', '', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', ''),
+(29, 46, 'qerwrwesdfdsf', NULL, NULL, NULL, NULL, NULL, '2023-11-06 23:13:55', '2023-11-06 23:13:55', NULL, NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
