@@ -19,14 +19,14 @@ services:
       - ./socket-server:/app
 
   mysql_db:
-    image: mysql:latest
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
     volumes:
-      - ./mysql/mysql-data:/var/lib/mysql:delegated
-      # - ./mysql/sql-dumps:/docker-entrypoint-initdb.d  # Mount the directory with the SQL dump as an init script
+      # - ./mysql/mysql-data:/var/lib/mysql:delegated
+      - ./sql-dumps:/docker-entrypoint-initdb.d  # Mount the directory with the SQL dump as an init script
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
