@@ -1,49 +1,33 @@
 // registration.js
+$(document).ready(function() {
+    $('#registration-form').on('submit', function(e) {
+        e.preventDefault();
 
-document.addEventListener('DOMContentLoaded', function() {
-    var form = document.getElementById('registration-form');
-    var errorContainer = document.getElementById('flashMessage');
+        // Serialize the form data
+        var formData = $(this).serialize();
+        var errMsgCont = $(".error-message");
 
-    form.addEventListener('submit', function(event) {
-        errorContainer.textContent = '';
-        errorContainer.style.display = 'none';
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'), 
+            data: formData,
+            success: function(data) {
+                errMsgCont.addClass('d-none');
+                window.location.href = '/registration-success-page'
+            },
+            error: function(res) {
+                // Handle errors or validation errors from the server
+                console.log("Error: ", res.responseJSON);
+                if(res.responseJSON?.errors) {
+                    errMsgCont.removeClass('d-none');
+                    if (typeof res.responseJSON?.errors[0] === 'string' || res.responseJSON?.errors[0] instanceof String) {
+                        errMsgCont.text(res.responseJSON?.errors[0]);
+                    } else {
+                        errMsgCont.text(Object.values(res.responseJSON?.errors)[0]);
+                    }
+                }
+            }
+        });
+    })
+})
 
-        var name = form.elements['data[User][name]'].value;
-        var email = form.elements['data[User][email]'].value;
-        var password = form.elements['data[User][password]'].value;
-        var confirmPassword = form.elements['data[User][confirm_password]'].value;
-
-        if (name.trim() === '') {
-            errorContainer.textContent = 'Please enter your name.';
-            errorContainer.style.display = 'block';
-            event.preventDefault();
-            return;
-        }
-
-        if (!isValidEmail(email)) {
-            errorContainer.textContent = 'Please enter a valid email address.';
-            errorContainer.style.display = 'block';
-            event.preventDefault();
-            return;
-        }
-
-        if (name.length < 5 || name.length > 20) {
-            errorContainer.textContent = 'Name is required and should be 5-20 characters.';
-            errorContainer.style.display = 'block';
-            event.preventDefault();
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            errorContainer.textContent = 'Passwords do not match.';
-            errorContainer.style.display = 'block';
-            event.preventDefault();
-            return;
-        }
-    });
-
-    function isValidEmail(email) {
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-});

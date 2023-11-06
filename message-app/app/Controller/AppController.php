@@ -35,26 +35,20 @@ class AppController extends Controller {
     public $components = array(
         'Session',
         'Auth' => array(
-            'loginRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
+            'loginRedirect' => array('controller' => 'dashboard', 'action' => 'index'),
             'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
+            'loginAction' => array('controller' => 'users', 'action' => 'login'),
             'authenticate' => array(
                 'Form' => array(
                     'fields' => array('username' => 'email', 'password' => 'password')
                 )
             ),
-            'loginAction' => array('controller' => 'users', 'action' => 'login'), // Custom login action
         ),
         'DebugKit.Toolbar'
     );
     
     public function beforeFilter() {
         parent::beforeFilter();
-
-        // Check if the user is logged in
-        if ($this->Auth->user() && $this->request->params['controller'] === 'users' && $this->request->params['action'] === 'login') {
-            // Redirect to the dashboard if a logged-in user tries to access the login page
-            $this->redirect(array('controller' => 'pages', 'action' => 'index'));
-        }
     }
 
     

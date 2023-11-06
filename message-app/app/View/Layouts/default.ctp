@@ -29,6 +29,7 @@
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('jquery-ui');
+		echo $this->Html->css('select2.min.css');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -38,6 +39,7 @@
 		echo $this->Html->script('/js/jquery.ui');
 		echo $this->Html->script('/js/proper.min');
 		echo $this->Html->script('/js/bootstrap.min');
+		echo $this->Html->script('/js/select2.min');
 		
 	?>
 </head>

@@ -22,12 +22,11 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
-    env_file:
-      - .env
     ports:
       - 3306:3306
     volumes:
-      - ./sql-dumps:/docker-entrypoint-initdb.d  # Mount the directory with the SQL dump as an init script
+      - ./mysql/mysql-data:/var/lib/mysql:delegated
+      - ./mysql/sql-dumps:/docker-entrypoint-initdb.d  # Mount the directory with the SQL dump as an init script
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest

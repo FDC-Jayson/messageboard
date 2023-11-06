@@ -1,9 +1,5 @@
 <?php
 
-// app/Model/Message.php
-App::uses('AppModel', 'Model');
-App::uses('AuthComponent', 'Controller/Component');
-
 class Message extends AppModel {
     public $validate = array(
         'from_user_id' => array(

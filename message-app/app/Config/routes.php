@@ -20,48 +20,27 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
  
-/**
- * Here, we are connecting '/' (base path) to controller called 'Pages',
- * its action called 'display', and we pass a param to select the view file
- * to use (in this case, /app/View/Pages/home.ctp)...
- */
-	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-/**
- * ...and connect the rest of 'Pages' controller's URLs.
- */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+/** ROUTES */
+
+	Router::connect('/', array('controller' => 'dashboard', 'action' => 'index'));
 	Router::connect('/register', array('controller' => 'users', 'action' => 'register'));
 	Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
 	Router::connect('/registration-success-page', array('controller' => 'users', 'action' => 'registrationSuccessPage'));
 
 	/** API Routes */
+	Router::mapResources(['api']);
+	Router::parseExtensions('json');
 
-	// Route for getting messages
-	Router::connect('/api/messages/:userId/:page', array('controller' => 'messages', 'action' => 'apiGetMessages'), array('pass' => array('userId', 'page')));
-
-	// Route for getting message details
-	Router::connect('/api/messages/details/:toUserId/:page', array('controller' => 'messages', 'action' => 'apiGetMessageDetails'), array('pass' => array('toUserId', 'page')));
-
-	// Route for getting message details
-	Router::connect('/api/messages-search-count/:toUserId/:search', array('controller' => 'messages', 'action' => 'apiSearchMessageGetCount'), array('pass' => array('toUserId', 'search')));
-
-	// Route for sending a new message
-	Router::connect('/api/messages/send', array('controller' => 'messages', 'action' => 'apiSendMessage'));
-
-	// Route for marking a message as read
-	Router::connect('/api/messages/mark_read/:id', array('controller' => 'messages', 'action' => 'apiMarkAsRead'), array('pass' => array('id'), 'id' => '[0-9]+'));
-
-	// Route for deleting a message
-	Router::connect('/api/message-delete/:id/:userId', array('controller' => 'messages', 'action' => 'apiDeleteMessage'), array('pass' => array('id', 'userId'), 'id' => '[0-9]+'));
-	
-	// Route for deleting a message
-	Router::connect('/api/messages-delete-conversation/:toUserId', array('controller' => 'messages', 'action' => 'apiDeleteConversation'), array('pass' => array('toUserId'), 'toUserId' => '[0-9]+'));
-	
-	// Route for contacts search
-	Router::connect('/api/search-contacts', array('controller' => 'messages', 'action' => 'apiSearchContacts'));
-
-	// You can define other routes for your API actions as needed.
+	Router::connect('/api/update-profile', array('controller' => 'api', 'action' => 'updateProfile'));
+	Router::connect('/api/change-password', array('controller' => 'api', 'action' => 'changePassword'));
+	Router::connect('/api/messages/:userId/:page', array('controller' => 'api', 'action' => 'messages'), array('pass' => array('userId', 'page')));
+	Router::connect('/api/messages/details/:toUserId/:page', array('controller' => 'api', 'action' => 'messageDetails'), array('pass' => array('toUserId', 'page')));
+	Router::connect('/api/messages-search-count/:toUserId/:search', array('controller' => 'api', 'action' => 'searchMessageCount'), array('pass' => array('toUserId', 'search')));
+	Router::connect('/api/messages/send', array('controller' => 'api', 'action' => 'sendMessage'));
+	Router::connect('/api/message-delete/:id/:userId', array('controller' => 'api', 'action' => 'deleteMessage'), array('pass' => array('id', 'userId'), 'id' => '[0-9]+'));
+	Router::connect('/api/messages-delete-conversation/:toUserId', array('controller' => 'api', 'action' => 'deleteMessageConv'), array('pass' => array('toUserId'), 'toUserId' => '[0-9]+'));
+	Router::connect('/api/search-contacts', array('controller' => 'api', 'action' => 'searchContacts'));
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on

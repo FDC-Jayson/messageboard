@@ -1,15 +1,12 @@
-<!-- app/View/Users/register.ctp -->
-<!-- Error messages container at the top -->
-<?php
-    if ($this->Session->check('Message.flash')) {
-        echo $this->Session->flash('flash');
-    }
-?>
-<div id="flashMessage" class="message" style="display:none"></div>
+
+<div class="error-message d-none message"></div>
 
 <h2>User Registration</h2>
 <?php 
-    echo $this->Form->create('User', array('id' => 'registration-form'));
+    echo $this->Form->create('User', [
+        'id' => 'registration-form',
+        'url' => ['controller' => 'api', 'action' => 'register']
+    ]);
     echo $this->Form->input('name', array('label' => 'Name'));
     echo $this->Form->input('email', array('label' => 'Email'));
     echo $this->Form->input('password', array('type' => 'password', 'label' => 'Password'));

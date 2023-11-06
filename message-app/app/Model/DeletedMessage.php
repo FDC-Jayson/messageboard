@@ -1,9 +1,5 @@
 <?php
 
-// app/Model/Message.php
-App::uses('AppModel', 'Model');
-App::uses('AuthComponent', 'Controller/Component');
-
 class DeletedMessage extends AppModel {
     public $validate = array(
         'message_id' => array(
