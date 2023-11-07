@@ -6,18 +6,18 @@ const app = angular.module("messageBoard", ["ngRoute"]);
 app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
-        templateUrl: "/messages/list",
+        templateUrl: BASE_URL + "/messages/list",
         controller: "listCtrl"
     })
     .when("/send", {
-        templateUrl: "/messages/send",
+        templateUrl: BASE_URL + "/messages/send",
         controller: "sendCtrl"
     })
     .when("/details/:toUserId", {
-        templateUrl: "/messages/details",
+        templateUrl: BASE_URL + "/messages/details",
         controller: "detailsCtrl"
     })
-    .otherwise({ redirectTo: "/" });
+    .otherwise({ redirectTo: BASE_URL + "/" });
 });
 
 /** Main Controller */
@@ -36,7 +36,7 @@ app.controller("listCtrl", function($scope, $http, $httpParamSerializer, $locati
     $scope.getMessages = function() {
         $http({
             method: "GET",
-            url: "/api/messages/" + $scope.userId + "/" + $scope.page
+            url: BASE_URL + "/api/messages/" + $scope.userId + "/" + $scope.page
         }).then(function mySuccess(response) {
 
             response.data?.messages.map(item => {
@@ -60,7 +60,7 @@ app.controller("listCtrl", function($scope, $http, $httpParamSerializer, $locati
             return false;
         }
 
-        $http.post("/api/messages-delete-conversation/" + toUserId, {
+        $http.post(BASE_URL + "/api/messages-delete-conversation/" + toUserId, {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .then(
@@ -151,7 +151,7 @@ app.controller("sendCtrl", function($scope, $http, $httpParamSerializer, $locati
         };
 
         $http.post(
-            "/api/messages/send", 
+            BASE_URL + "/api/messages/send", 
             $.param(postData), {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
@@ -173,7 +173,15 @@ app.controller("sendCtrl", function($scope, $http, $httpParamSerializer, $locati
     }
 });
 /** Details Controller */
-app.controller("detailsCtrl", function($scope, $http, $httpParamSerializer, $routeParams, $timeout, $location) {
+app.controller("detailsCtrl", function(
+    $scope, 
+    $http, 
+    $httpParamSerializer, 
+    $routeParams, 
+    $timeout, 
+    $location, 
+    $route
+) {
 
     var toUserId = parseInt($routeParams.toUserId);
 
@@ -190,7 +198,7 @@ app.controller("detailsCtrl", function($scope, $http, $httpParamSerializer, $rou
     $scope.getMessages = function() {
         $http({
             method: "GET",
-            url: "/api/messages/details/" + toUserId + "/" + $scope.page
+            url: BASE_URL + "/api/messages/details/" + toUserId + "/" + $scope.page
         }).then(function mySuccess(response) {
             // Sort the messages based on the 'created' property (message timestamp)
             response.data?.messages.sort(function(a, b) {
@@ -228,12 +236,14 @@ app.controller("detailsCtrl", function($scope, $http, $httpParamSerializer, $rou
         };
 
         $http.post(
-            "/api/messages/send", 
+            BASE_URL + "/api/messages/send", 
             $.param(postData), {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .then(
             function(response){
+                // Manually Reload the data since the socket is removed
+                $route.reload();
                 // Perform Socket Emit Message
                 socket.emit('message', response.data[0]);
                 // Clear input message text
@@ -274,7 +284,7 @@ app.controller("detailsCtrl", function($scope, $http, $httpParamSerializer, $rou
 
         userIds.forEach(userId => {
             
-            $http.post("api/message-delete/" + data.Message.id + "/" + userId, {
+            $http.post(BASE_URL + "api/message-delete/" + data.Message.id + "/" + userId, {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             })
             .then(
@@ -322,7 +332,7 @@ app.controller("detailsCtrl", function($scope, $http, $httpParamSerializer, $rou
             return false;
         }
 
-        $http.post("api/messages-search-count/" + toUserId + "/" + searchQuery, {
+        $http.post(BASE_URL + "api/messages-search-count/" + toUserId + "/" + searchQuery, {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .then(
@@ -569,7 +579,7 @@ app.directive('select2', function($http, $httpParamSerializer) {
                 element.siblings('.select2-container').find('.select2-search__field').on('input', function() {
                     var searchValue = $(this).val();
 
-                    $http.post("/api/search-contacts", $httpParamSerializer({ search: searchValue }), {
+                    $http.post(BASE_URL + "/api/search-contacts", $httpParamSerializer({ search: searchValue }), {
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                     })
                     .then(
@@ -600,12 +610,12 @@ function formatState(state) {
     }
 
     var imageUrl = state.element.dataset.imageUrl || 'no-image.png';
-    imageUrl = '/img/profiles/' + imageUrl;
+    imageUrl = BASE_URL + '/img/profiles/' + imageUrl;
 
     var $state = $('<span class="mr-2"><img src="' + imageUrl + '" class="image" width="40" onerror="replaceWithError(this)" /> ' + state.text + '</span>');
 
     return $state;
 }
 window.replaceWithError = function(imageElement) {
-    imageElement.src = 'img/profiles/no-image.png';
+    imageElement.src = BASE_URL + 'img/profiles/no-image.png';
 };

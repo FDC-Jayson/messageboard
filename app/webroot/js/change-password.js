@@ -9,11 +9,11 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/api/change-password', 
+            url: BASE_URL + '/api/change-password', 
             data: formData,
             success: function(data) {
                 errMsgCont.addClass('d-none');
-                window.location.href = '/userProfiles/details'
+                window.location.href = BASE_URL + '/userProfiles/details'
             },
             error: function(res) {
                 // Handle errors or validation errors from the server

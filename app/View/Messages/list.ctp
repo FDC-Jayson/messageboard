@@ -17,8 +17,8 @@
             </div>
             <div class="media d-flex align-items-center" ng-click="viewMessage(x.Message.from_user_id != <?php echo $userData['id'] ?> ? x.Message.from_user_id : x.Message.to_user_id)">
                 <img class="mr-3" 
-                     src="/img/profiles/{{ x.Message.from_user_id != <?php echo $userData['id'] ?> ? x.FromUser.UserProfile.image : x.ToUser.UserProfile.image }}" 
-                     onerror="this.src='/img/profiles/no-image.png';"
+                     src="<?php echo $this->webroot; ?>/img/profiles/{{ x.Message.from_user_id != <?php echo $userData['id'] ?> ? x.FromUser.UserProfile.image : x.ToUser.UserProfile.image }}" 
+                     onerror="this.src='<?php echo $this->webroot; ?>/img/profiles/no-image.png';"
                      alt="Generic placeholder image" 
                      width="100"
                 >

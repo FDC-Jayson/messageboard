@@ -5,7 +5,8 @@
 
 </div>
 
-<?php echo $this->Html->script('/js/socket.io.min'); ?>
-<?php echo $this->Html->script('/js/angular.min'); ?>
-<?php echo $this->Html->script('/js/angular-route'); ?>
-<?php echo $this->Html->script('/js/messages'); ?>
+
+<?php $this->append('script', $this->Html->script('/js/socket.io.min')); ?>
+<?php $this->append('script', $this->Html->script('/js/angular.min')); ?>
+<?php $this->append('script', $this->Html->script('/js/angular-route')); ?>
+<?php $this->append('script', $this->Html->script('/js/messages')); ?>

@@ -25,22 +25,12 @@
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
-
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('jquery-ui');
 		echo $this->Html->css('select2.min.css');
-
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
-		echo $this->fetch('script');
-	
-		echo $this->Html->script('/js/jquery.min');
-		echo $this->Html->script('/js/jquery.ui');
-		echo $this->Html->script('/js/proper.min');
-		echo $this->Html->script('/js/bootstrap.min');
-		echo $this->Html->script('/js/select2.min');
-		
 	?>
 </head>
 <body>
@@ -72,6 +62,18 @@
 				<!-- footer element -->
 		</div>
 	</div>
+	<script type="text/javascript">
+		const BASE_URL = '<?php echo $this->webroot; ?>';
+	</script>
+	<?php
+		// Include scripts that were added to the content block
+		echo $this->Html->script('/js/jquery.min');
+		echo $this->Html->script('/js/jquery.ui');
+		echo $this->Html->script('/js/proper.min');
+		echo $this->Html->script('/js/bootstrap.min');
+		echo $this->Html->script('/js/select2.min');
 
+		echo $this->fetch('script');
+	?>
 </body>
 </html>

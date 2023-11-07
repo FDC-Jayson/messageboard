@@ -6,8 +6,8 @@
         <div class="d-flex justify-content-between border-bottom pb-3">
             <div class="d-flex align-items-center">
                 <img class="mr-3" 
-                        src="/img/profiles/{{ messages[0].Message.from_user_id != <?php echo $userData['id'] ?> ? messages[0].FromUser.UserProfile.image : messages[0].ToUser.UserProfile.image }}" 
-                        onerror="this.src='/img/profiles/no-image.png';"
+                        src="<?php echo $this->webroot; ?>/img/profiles/{{ messages[0].Message.from_user_id != <?php echo $userData['id'] ?> ? messages[0].FromUser.UserProfile.image : messages[0].ToUser.UserProfile.image }}" 
+                        onerror="this.src='<?php echo $this->webroot; ?>/img/profiles/no-image.png';"
                         alt="Generic placeholder image" 
                         width="50"
                 >
@@ -42,7 +42,7 @@
                         >
                             <div class="dropdown" ng-show="x.Message.from_user_id != <?php echo $userData['id'] ?>">
                                 <a style="cursor:pointer" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="/img/3dots.png" width="20" />
+                                    <img src="<?php echo $this->webroot; ?>/img/3dots.png" width="20" />
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" ng-click="deleteMessage($event, 'for-you', x)" href="#">Delete for you</a>
@@ -60,7 +60,7 @@
                             </div>
                             <div class="dropdown" ng-show="x.Message.from_user_id == <?php echo $userData['id'] ?>">
                                 <a style="cursor:pointer" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="/img/3dots.png" width="20" />
+                                    <img src="<?php echo $this->webroot; ?>/img/3dots.png" width="20" />
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" ng-click="deleteMessage($event, 'for-you', x)" href="#">Delete for you</a>

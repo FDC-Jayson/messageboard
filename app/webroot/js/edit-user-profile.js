@@ -39,12 +39,12 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             cache: false,
-            url: '/api/update-profile', 
+            url: BASE_URL + '/api/update-profile', 
             data: formData,
             enctype: 'multipart/form-data',
             success: function(data) {
                 errMsgCont.addClass('d-none');
-                window.location.href = '/userProfiles/details'
+                window.location.href = BASE_URL + '/userProfiles/details'
             },
             error: function(res) {
                 // Handle errors or validation errors from the server

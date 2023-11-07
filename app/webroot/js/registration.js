@@ -13,7 +13,7 @@ $(document).ready(function() {
             data: formData,
             success: function(data) {
                 errMsgCont.addClass('d-none');
-                window.location.href = '/registration-success-page'
+                window.location.href = BASE_URL + '/registration-success-page'
             },
             error: function(res) {
                 // Handle errors or validation errors from the server
