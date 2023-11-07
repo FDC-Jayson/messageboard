@@ -12,8 +12,8 @@
         <div class="form-group d-flex">
             <img 
                 id="imagePreview" 
-                src="<?php echo '/img/profiles/' . $this->request->data['UserProfile']['image']; ?>" width="120" height="120"
-                onerror="this.onerror=null;this.src='/img/profiles/no-image.png'"
+                src="<?php echo $this->webroot.'/img/profiles/' . $this->request->data['UserProfile']['image']; ?>" width="120" height="120"
+                onerror="this.onerror=null;this.src='<?php echo $this->webroot ?>/img/profiles/no-image.png'"
             />
             <div class="d-flex align-items-center">
                 <input type="file" name="data[UserProfile][imageFile]" class="form-control-file d-none" id="upload-image">
@@ -44,4 +44,4 @@
 </div>
 
 
-<?php echo $this->Html->script('/js/edit-user-profile.js'); ?>
+<?php $this->append('script', $this->Html->script('/js/edit-user-profile')); ?>

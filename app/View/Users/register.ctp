@@ -14,5 +14,4 @@
     echo $this->Form->end('Register');
 ?>
 
-<?php echo $this->Html->script('/js/registration.js'); ?>
-
+<?php $this->append('script', $this->Html->script('/js/registration')); ?>

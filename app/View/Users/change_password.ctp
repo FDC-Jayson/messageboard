@@ -9,4 +9,4 @@
     echo $this->Form->end('Save Changes');
 ?>
 
-<?php echo $this->Html->script('/js/change-password.js'); ?>
+<?php $this->append('script', $this->Html->script('/js/change-password')); ?>
